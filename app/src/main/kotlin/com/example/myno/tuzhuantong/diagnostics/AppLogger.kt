@@ -1,4 +1,4 @@
-package com.example.myno.pngzwedp.diagnostics
+package com.example.myno.tuzhuantong.diagnostics
 
 import android.content.Context
 import android.os.Build

@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:text="选择需要使用的转换工具"
+                android:text="更多功能开发接入中..."
                 android:textColor="#85898E"
                 android:textSize="12sp" />
 

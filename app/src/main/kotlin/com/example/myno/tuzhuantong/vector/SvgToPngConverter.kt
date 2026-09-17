@@ -1,4 +1,4 @@
-package com.example.myno.pngzwedp.vector
+package com.example.myno.tuzhuantong.vector
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -9,7 +9,7 @@ import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.Typeface
 import androidx.core.graphics.PathParser
-import com.example.myno.pngzwedp.diagnostics.AppLogger
+import com.example.myno.tuzhuantong.diagnostics.AppLogger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.w3c.dom.Element

@@ -1,4 +1,4 @@
-package com.example.myno.pngzwedp
+package com.example.myno.tuzhuantong
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -22,17 +22,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.lifecycleScope
 
-import com.example.myno.pngzwedp.conversion.ConversionRequest
-import com.example.myno.pngzwedp.conversion.ConverterFactory
-import com.example.myno.pngzwedp.conversion.DetectedFormat
-import com.example.myno.pngzwedp.conversion.FormatDetector
-import com.example.myno.pngzwedp.conversion.ImageFormat
-import com.example.myno.pngzwedp.databinding.ActivityMainBinding
-import com.example.myno.pngzwedp.diagnostics.AppLogger
-import com.example.myno.pngzwedp.storage.OutputDirectoryManager
-import com.example.myno.pngzwedp.tools.SvgConverterActivity
+import com.example.myno.tuzhuantong.conversion.ConversionRequest
+import com.example.myno.tuzhuantong.conversion.ConverterFactory
+import com.example.myno.tuzhuantong.conversion.DetectedFormat
+import com.example.myno.tuzhuantong.conversion.FormatDetector
+import com.example.myno.tuzhuantong.conversion.ImageFormat
+import com.example.myno.tuzhuantong.databinding.ActivityMainBinding
+import com.example.myno.tuzhuantong.diagnostics.AppLogger
+import com.example.myno.tuzhuantong.storage.OutputDirectoryManager
+import com.example.myno.tuzhuantong.tools.SvgConverterActivity
 
-import com.example.myno.pngzwedp.tools.ToolSetupActivity
+
+
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

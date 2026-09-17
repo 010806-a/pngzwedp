@@ -5,13 +5,10 @@
     <application
         android:name=".PngzwedpApplication"
         android:allowBackup="true"
-        android:label="pngzwedp"
+        android:label="图转通"
         android:supportsRtl="true"
         android:theme="@style/Theme.Pngzwedp">
 
-        <!-- 工具设置页面 -->
-        <activity
-            android:name=".tools.ToolSetupActivity" />
 
       <activity android:name=".tools.SvgConverterActivity" />
         <!-- 主页面 -->

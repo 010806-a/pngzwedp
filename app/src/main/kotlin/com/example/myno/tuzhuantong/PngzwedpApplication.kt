@@ -1,7 +1,7 @@
-package com.example.myno.pngzwedp
+package com.example.myno.tuzhuantong
 
 import android.app.Application
-import com.example.myno.pngzwedp.diagnostics.AppLogger
+import com.example.myno.tuzhuantong.diagnostics.AppLogger
 
 class PngzwedpApplication : Application() {
 

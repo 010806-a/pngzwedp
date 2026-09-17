@@ -1,11 +1,11 @@
-package com.example.myno.pngzwedp.tools
-import com.example.myno.pngzwedp.vector.SvgToPngConverter
-import com.example.myno.pngzwedp.vector.SvgToVectorXmlConverter
+package com.example.myno.tuzhuantong.tools
+import com.example.myno.tuzhuantong.vector.SvgToPngConverter
+import com.example.myno.tuzhuantong.vector.SvgToVectorXmlConverter
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
+
 import android.provider.Settings
 import android.view.View
 import android.view.ViewGroup
@@ -19,15 +19,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import com.example.myno.pngzwedp.R
-import com.example.myno.pngzwedp.databinding.ActivitySvgConverterBinding
-import com.example.myno.pngzwedp.diagnostics.AppLogger
-import com.example.myno.pngzwedp.storage.OutputDirectoryManager
+import com.example.myno.tuzhuantong.R
+import com.example.myno.tuzhuantong.databinding.ActivitySvgConverterBinding
+import com.example.myno.tuzhuantong.diagnostics.AppLogger
+import com.example.myno.tuzhuantong.storage.OutputDirectoryManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
-import java.io.FileOutputStream
 import java.io.InputStream
 import kotlin.math.roundToInt
 
@@ -92,6 +90,36 @@ class SvgConverterActivity : AppCompatActivity() {
         initViews()
         updateOutputDirectory()
         updateUi()
+    }
+    private val pickOutputDirectory =
+    registerForActivityResult(
+        ActivityResultContracts.OpenDocumentTree()
+    ) { uri ->
+
+        if (uri == null) {
+            return@registerForActivityResult
+        }
+
+        try {
+            contentResolver.takePersistableUriPermission(
+                uri,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            )
+        } catch (e: Exception) {
+            AppLogger.e(
+                "SvgConverterActivity",
+                "保存输出目录权限失败",
+                e
+            )
+        }
+
+        OutputDirectoryManager.saveOutputUri(
+            this,
+            uri
+        )
+
+        updateOutputDirectory()
     }
 
     private fun initViews() {
@@ -711,65 +739,95 @@ binding.keepAspectCheckBox.setOnCheckedChangeListener { _, checked ->
      * 下一步把固定底部按钮加入 XML 后，
      * 点击这里即可真正开始转换。
      */
-    private fun startConversion() {
+ private fun startConversion() {
 
-        if (converting) {
-            return
-        }
-
-        if (selectedFiles.isEmpty()) {
-
-            Toast.makeText(
-                this,
-                "请先选择 SVG 文件",
-                Toast.LENGTH_SHORT
-            ).show()
-
-            return
-        }
-
- if (outputFormat == OutputFormat.PNG &&
-    pngSizeMode == PngSizeMode.CUSTOM &&
-    !readCustomSize()
-) {
-    return
-}
-
-        converting = true
-
-        lockUi(true)
-
-        binding.progressGroup.visibility =
-            View.VISIBLE
-
-        binding.progressTitle.text =
-            "正在转换"
-
-        binding.progressCount.text =
-            "0 / ${selectedFiles.size}"
-
-        binding.progressBar.max = 100
-        binding.progressBar.progress = 0
-
-        binding.progressText.text =
-            "准备转换…"
-
-        binding.failureGroup.visibility =
-            View.GONE
-
-        binding.failureList.removeAllViews()
-
-        binding.resultGroup.visibility =
-            View.GONE
-
-        lifecycleScope.launch {
-
-            val results =
-                performConversion()
-
-            showConversionFinished(results)
-        }
+    if (converting) {
+        return
     }
+
+    if (selectedFiles.isEmpty()) {
+
+        Toast.makeText(
+            this,
+            "请先选择 SVG 文件",
+            Toast.LENGTH_SHORT
+        ).show()
+
+        return
+    }
+
+    /*
+     * 转换前必须存在输出目录。
+     *
+     * 没有输出目录时：
+     *
+     * 1. 不开始转换
+     * 2. 打开系统目录选择器
+     * 3. 用户选择目录后返回当前页面
+     * 4. 用户再次点击“开始转换”才真正开始
+     */
+    val outputUri =
+        OutputDirectoryManager.getOutputUri(this)
+
+    if (outputUri == null) {
+
+        Toast.makeText(
+            this,
+            "请先选择输出目录",
+            Toast.LENGTH_SHORT
+        ).show()
+
+        pickOutputDirectory.launch(null)
+
+        return
+    }
+
+    /*
+     * PNG 自定义尺寸校验
+     */
+    if (
+        outputFormat == OutputFormat.PNG &&
+        pngSizeMode == PngSizeMode.CUSTOM &&
+        !readCustomSize()
+    ) {
+        return
+    }
+
+    converting = true
+
+    lockUi(true)
+
+    binding.progressGroup.visibility =
+        View.VISIBLE
+
+    binding.progressTitle.text =
+        "正在转换"
+
+    binding.progressCount.text =
+        "0 / ${selectedFiles.size}"
+
+    binding.progressBar.max = 100
+    binding.progressBar.progress = 0
+
+    binding.progressText.text =
+        "准备转换…"
+
+    binding.failureGroup.visibility =
+        View.GONE
+
+    binding.failureList.removeAllViews()
+
+    binding.resultGroup.visibility =
+        View.GONE
+
+    lifecycleScope.launch {
+
+        val results =
+            performConversion(outputUri)
+
+        showConversionFinished(results)
+    }
+}
 
 private fun readCustomSize(): Boolean {
     val width = widthInput
@@ -799,72 +857,79 @@ private fun readCustomSize(): Boolean {
     return true
 }
 
-    private suspend fun performConversion():
-        List<ConversionResult> =
-        withContext(Dispatchers.IO) {
+private suspend fun performConversion(
+    outputUri: Uri
+):
+    List<ConversionResult> =
+    withContext(Dispatchers.IO) {
 
-            val results =
-                mutableListOf<ConversionResult>()
+        val results =
+            mutableListOf<ConversionResult>()
 
-            val total =
-                selectedFiles.size
+        val total =
+            selectedFiles.size
 
-            selectedFiles.forEachIndexed { index, file ->
+        selectedFiles.forEachIndexed { index, file ->
 
-                withContext(Dispatchers.Main) {
+            withContext(Dispatchers.Main) {
 
-                    val current =
-                        index + 1
+                val current =
+                    index + 1
 
-                    binding.progressCount.text =
-                        "$current / $total"
+                binding.progressCount.text =
+                    "$current / $total"
 
-                    binding.progressBar.progress =
-                        ((index.toFloat() / total) * 100f)
-                            .roundToInt()
+                binding.progressBar.progress =
+                    (
+                        (index.toFloat() / total) * 100f
+                    ).roundToInt()
 
-                    binding.progressText.text =
-                        "正在处理：${file.displayName}"
-                }
-
-                try {
-
-                    val outputName =
-                        convertSingleFile(file)
-
-                    results.add(
-                        ConversionResult(
-                            sourceName = file.displayName,
-                            outputName = outputName,
-                            success = true
-                        )
-                    )
-
-                } catch (e: Exception) {
-
-                    AppLogger.e(
-                        "SvgConverterActivity",
-                        "SVG 转换失败：${file.displayName}",
-                        e
-                    )
-
-                    results.add(
-                        ConversionResult(
-                            sourceName = file.displayName,
-                            outputName = null,
-                            success = false,
-                            reason = getReadableError(e)
-                        )
-                    )
-                }
+                binding.progressText.text =
+                    "正在处理：${file.displayName}"
             }
 
-            results
+            try {
+
+                val outputName =
+                    convertSingleFile(
+                        file,
+                        outputUri
+                    )
+
+                results.add(
+                    ConversionResult(
+                        sourceName = file.displayName,
+                        outputName = outputName,
+                        success = true
+                    )
+                )
+
+            } catch (e: Exception) {
+
+                AppLogger.e(
+                    "SvgConverterActivity",
+                    "SVG 转换失败：${file.displayName}",
+                    e
+                )
+
+                results.add(
+                    ConversionResult(
+                        sourceName = file.displayName,
+                        outputName = null,
+                        success = false,
+                        reason = getReadableError(e)
+                    )
+                )
+            }
         }
 
-    private suspend fun convertSingleFile(
-        file: SelectedSvg
-    ): String {
+        results
+    }
+
+  private suspend fun convertSingleFile(
+    file: SelectedSvg,
+    outputUri: Uri
+): String {
 
         val baseName =
             file.displayName
@@ -908,7 +973,8 @@ private fun readCustomSize(): Boolean {
 
                     saveBitmap(
                         finalBitmap,
-                        outputName
+                        outputName,
+                        outputUri
                     )
 
                 } finally {
@@ -938,7 +1004,8 @@ private fun readCustomSize(): Boolean {
 
                 saveText(
                     xml,
-                    outputName
+                    outputName,
+                    outputUri
                 )
             }
         }
@@ -995,160 +1062,107 @@ private fun readCustomSize(): Boolean {
         )
     }
 
-    private fun saveBitmap(
-        bitmap: Bitmap,
-        fileName: String
-    ) {
+ private fun saveBitmap(
+    bitmap: Bitmap,
+    fileName: String,
+    outputUri: Uri
+) {
 
-        val outputUri =
-            OutputDirectoryManager.getOutputUri(this)
+    val directory =
+        androidx.documentfile.provider.DocumentFile
+            .fromTreeUri(
+                this,
+                outputUri
+            )
+            ?: throw IllegalStateException(
+                "输出目录不可用"
+            )
 
-        if (outputUri != null) {
-
-            val directory =
-                androidx.documentfile.provider.DocumentFile
-                    .fromTreeUri(
-                        this,
-                        outputUri
-                    )
-                    ?: throw IllegalStateException(
-                        "输出目录不可用"
-                    )
-
-            directory.findFile(fileName)?.delete()
-
-            val outputFile =
-                directory.createFile(
-                    "image/png",
-                    fileName
-                )
-                    ?: throw IllegalStateException(
-                        "无法创建输出文件"
-                    )
-
-            contentResolver.openOutputStream(
-                outputFile.uri
-            )?.use { stream ->
-
-                if (
-                    !bitmap.compress(
-                        Bitmap.CompressFormat.PNG,
-                        100,
-                        stream
-                    )
-                ) {
-                    throw IllegalStateException(
-                        "PNG 写入失败"
-                    )
-                }
-            }
-                ?: throw IllegalStateException(
-                    "无法打开输出文件"
-                )
-
-        } else {
-
-            val directory =
-                File(
-                    getExternalFilesDir(
-                        Environment.DIRECTORY_PICTURES
-                    ),
-                    "pngzwedp"
-                )
-
-            if (!directory.exists()) {
-                directory.mkdirs()
-            }
-
-            val outputFile =
-                File(
-                    directory,
-                    fileName
-                )
-
-            FileOutputStream(outputFile).use { stream ->
-
-                if (
-                    !bitmap.compress(
-                        Bitmap.CompressFormat.PNG,
-                        100,
-                        stream
-                    )
-                ) {
-                    throw IllegalStateException(
-                        "PNG 写入失败"
-                    )
-                }
-            }
-        }
+    if (!directory.isDirectory) {
+        throw IllegalStateException(
+            "选择的输出位置不是有效目录"
+        )
     }
 
-    private fun saveText(
-        content: String,
-        fileName: String
-    ) {
+    directory.findFile(fileName)?.delete()
 
-        val outputUri =
-            OutputDirectoryManager.getOutputUri(this)
+    val outputFile =
+        directory.createFile(
+            "image/png",
+            fileName
+        )
+            ?: throw IllegalStateException(
+                "无法创建输出文件"
+            )
 
-        if (outputUri != null) {
+    contentResolver.openOutputStream(
+        outputFile.uri
+    )?.use { stream ->
 
-            val directory =
-                androidx.documentfile.provider.DocumentFile
-                    .fromTreeUri(
-                        this,
-                        outputUri
-                    )
-                    ?: throw IllegalStateException(
-                        "输出目录不可用"
-                    )
-
-            directory.findFile(fileName)?.delete()
-
-            val outputFile =
-                directory.createFile(
-                    "application/xml",
-                    fileName
-                )
-                    ?: throw IllegalStateException(
-                        "无法创建输出文件"
-                    )
-
-            contentResolver.openOutputStream(
-                outputFile.uri
-            )?.use { stream ->
-
-                stream.write(
-                    content.toByteArray(Charsets.UTF_8)
-                )
-            }
-                ?: throw IllegalStateException(
-                    "无法写入 Vector XML"
-                )
-
-        } else {
-
-            val directory =
-                File(
-                    getExternalFilesDir(
-                        Environment.DIRECTORY_PICTURES
-                    ),
-                    "pngzwedp"
-                )
-
-            if (!directory.exists()) {
-                directory.mkdirs()
-            }
-
-            File(
-                directory,
-                fileName
-            ).writeText(
-                content,
-                Charsets.UTF_8
+        if (
+            !bitmap.compress(
+                Bitmap.CompressFormat.PNG,
+                100,
+                stream
+            )
+        ) {
+            throw IllegalStateException(
+                "PNG 写入失败"
             )
         }
+
+    } ?: throw IllegalStateException(
+        "无法打开输出文件"
+    )
+}
+
+ private fun saveText(
+    content: String,
+    fileName: String,
+    outputUri: Uri
+) {
+
+    val directory =
+        androidx.documentfile.provider.DocumentFile
+            .fromTreeUri(
+                this,
+                outputUri
+            )
+            ?: throw IllegalStateException(
+                "输出目录不可用"
+            )
+
+    if (!directory.isDirectory) {
+        throw IllegalStateException(
+            "选择的输出位置不是有效目录"
+        )
     }
+
+    directory.findFile(fileName)?.delete()
+
+    val outputFile =
+        directory.createFile(
+            "application/xml",
+            fileName
+        )
+            ?: throw IllegalStateException(
+                "无法创建输出文件"
+            )
+
+    contentResolver.openOutputStream(
+        outputFile.uri
+    )?.use { stream ->
+
+        stream.write(
+            content.toByteArray(
+                Charsets.UTF_8
+            )
+        )
+
+    } ?: throw IllegalStateException(
+        "无法写入 Vector XML"
+    )
+}
 
     private suspend fun showConversionFinished(
         results: List<ConversionResult>

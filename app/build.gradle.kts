@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.myno.pngzwedp"
+    namespace = "com.example.myno.tuzhuantong"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.myno.pngzwedp"
+        applicationId = "com.example.myno.tuzhuantong"
         minSdk = 21
         targetSdk = 34
         versionCode = 1

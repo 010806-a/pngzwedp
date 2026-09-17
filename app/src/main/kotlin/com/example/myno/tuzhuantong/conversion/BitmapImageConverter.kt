@@ -1,4 +1,4 @@
-package com.example.myno.pngzwedp.conversion
+package com.example.myno.tuzhuantong.conversion
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -8,8 +8,8 @@ import android.graphics.Color
 import android.net.Uri
 import android.provider.OpenableColumns
 import androidx.documentfile.provider.DocumentFile
-import com.example.myno.pngzwedp.ConversionItemResult
-import com.example.myno.pngzwedp.ConversionResult
+import com.example.myno.tuzhuantong.ConversionItemResult
+import com.example.myno.tuzhuantong.ConversionResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
