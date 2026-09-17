@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="286dp"
@@ -8,7 +9,8 @@
     android:paddingTop="8dp"
     android:paddingBottom="8dp">
 
-    <!-- 顶部标题区域 -->
+    <!-- 顶部 -->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +19,6 @@
         android:paddingEnd="6dp"
         android:paddingBottom="10dp">
 
-        <!-- 标题与副标题 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,7 +45,6 @@
 
         </LinearLayout>
 
-        <!-- 关闭按钮 -->
         <ImageButton
             android:id="@+id/closeButton"
             android:layout_width="40dp"
@@ -58,22 +58,11 @@
 
     </RelativeLayout>
 
-    <!-- SVG → PNG -->
+
+    <!-- SVG 转换 -->
+
     <include
+        android:id="@+id/toolSvgConverter"
         layout="@layout/item_more_tool_svg_png" />
-
-    <!-- 分隔线 -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="6dp"
-        android:background="#E1E4E8" />
-
-    <!-- SVG → XML / 反编译 -->
-    <include
-        layout="@layout/item_more_tool_decompile" />
 
 </LinearLayout>

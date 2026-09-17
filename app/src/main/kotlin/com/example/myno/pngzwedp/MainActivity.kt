@@ -30,8 +30,8 @@ import com.example.myno.pngzwedp.conversion.ImageFormat
 import com.example.myno.pngzwedp.databinding.ActivityMainBinding
 import com.example.myno.pngzwedp.diagnostics.AppLogger
 import com.example.myno.pngzwedp.storage.OutputDirectoryManager
-import com.example.myno.pngzwedp.tools.DecompileActivity
-import com.example.myno.pngzwedp.tools.SvgToPngActivity
+import com.example.myno.pngzwedp.tools.SvgConverterActivity
+
 import com.example.myno.pngzwedp.tools.ToolSetupActivity
 
 import kotlinx.coroutines.Dispatchers
@@ -227,41 +227,27 @@ class MainActivity : AppCompatActivity() {
          * B：SVG → PNG
          * --------------------------------------------------------
          */
-        popupView.findViewById<View>(
-            R.id.toolSvgToPng
-        ).setOnClickListener {
+  /*
+ * --------------------------------------------------------
+ * SVG 转换
+ *
+ * SVG → PNG
+ * SVG → Android Vector XML
+ * --------------------------------------------------------
+ */
+popupView.findViewById<View>(
+    R.id.toolSvgConverter
+).setOnClickListener {
 
-            AppLogger.i(
-                "MainActivity",
-                "点击工具：SVG → PNG"
-            )
+    AppLogger.i(
+        "MainActivity",
+        "点击工具：SVG 转换"
+    )
 
-            openTool(
-                SvgToPngActivity::class.java
-            )
-        }
-
-
-        /*
-         * --------------------------------------------------------
-         * D：反编译
-         *
-         * SVG → Android Vector XML
-         * --------------------------------------------------------
-         */
-        popupView.findViewById<View>(
-            R.id.toolDecompile
-        ).setOnClickListener {
-
-            AppLogger.i(
-                "MainActivity",
-                "点击工具：反编译"
-            )
-
-            openTool(
-                DecompileActivity::class.java
-            )
-        }
+    openTool(
+        SvgConverterActivity::class.java
+    )
+}
 
 
         /*

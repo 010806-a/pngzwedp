@@ -17,33 +17,6 @@ class ToolSetupActivity : AppCompatActivity() {
 
     private var nextActivity: String? = null
 
-    private data class ToolInfo(
-        val title: String,
-        val description: String
-    )
-
-    /**
-     * 当前应用允许进入的工具。
-     *
-     * 目前只保留：
-     * 1. SVG → PNG
-     * 2. SVG → XML
-     */
-    private val toolInfoMap =
-        mapOf(
-            SvgToPngActivity::class.java.name to
-                ToolInfo(
-                    "SVG → PNG",
-                    "将 SVG 转换为 PNG 图片"
-                ),
-
-            DecompileActivity::class.java.name to
-                ToolInfo(
-                    "SVG → XML",
-                    "将 SVG 转换为 Android Studio 可使用的 Vector XML"
-                )
-        )
-
     private val pickOutputDirectory =
         registerForActivityResult(
             ActivityResultContracts.OpenDocumentTree()
@@ -94,21 +67,27 @@ class ToolSetupActivity : AppCompatActivity() {
             updateDirectory(uri)
         }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
 
         AppLogger.lifecycle(
             "ToolSetupActivity",
             "onCreate"
         )
 
-        super.onCreate(savedInstanceState)
+        super.onCreate(
+            savedInstanceState
+        )
 
         binding =
             ActivityToolSetupBinding.inflate(
                 layoutInflater
             )
 
-        setContentView(binding.root)
+        setContentView(
+            binding.root
+        )
 
         nextActivity =
             intent.getStringExtra(
@@ -131,48 +110,21 @@ class ToolSetupActivity : AppCompatActivity() {
 
     private fun setupToolInfo() {
 
-        val info =
-            nextActivity?.let {
-                toolInfoMap[it]
-            }
-
-        if (info == null) {
-
-            binding.titleText.text =
-                "工具设置"
-
-            binding.subtitleText.text =
-                "使用工具前设置输出目录"
-
-            binding.toolNameText.text =
-                "工具"
-
-            binding.toolDescriptionText.text =
-                "使用工具前设置输出目录"
-
-            AppLogger.w(
-                "ToolSetupActivity",
-                "没有找到对应工具信息：$nextActivity"
-            )
-
-            return
-        }
-
         binding.titleText.text =
-            info.title
-
-        binding.subtitleText.text =
             "工具设置"
 
+        binding.subtitleText.text =
+            "设置工具输出目录"
+
         binding.toolNameText.text =
-            info.title
+            "输出目录"
 
         binding.toolDescriptionText.text =
-            info.description
+            "选择一个目录，用于保存工具生成的文件"
 
         AppLogger.i(
             "ToolSetupActivity",
-            "当前工具：${info.title}"
+            "工具设置页面使用通用输出目录配置"
         )
     }
 
@@ -195,7 +147,9 @@ class ToolSetupActivity : AppCompatActivity() {
                 "点击选择输出目录"
             )
 
-            pickOutputDirectory.launch(null)
+            pickOutputDirectory.launch(
+                null
+            )
         }
 
         binding.continueButton.setOnClickListener {
@@ -232,7 +186,9 @@ class ToolSetupActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateDirectory(uri: Uri) {
+    private fun updateDirectory(
+        uri: Uri
+    ) {
 
         AppLogger.checkpoint(
             "ToolSetupActivity",
@@ -265,7 +221,7 @@ class ToolSetupActivity : AppCompatActivity() {
 
         AppLogger.i(
             "ToolSetupActivity",
-            "输出目录 UI 更新完成，name=${document?.name}"
+            "输出目录 UI 更新完成"
         )
     }
 
@@ -274,17 +230,7 @@ class ToolSetupActivity : AppCompatActivity() {
         val className =
             nextActivity
 
-        AppLogger.i(
-            "ToolSetupActivity",
-            "准备打开目标工具，className=$className"
-        )
-
-        if (className == null) {
-
-            AppLogger.e(
-                "ToolSetupActivity",
-                "nextActivity 为空，无法打开目标工具"
-            )
+        if (className.isNullOrBlank()) {
 
             Toast.makeText(
                 this,
@@ -296,21 +242,36 @@ class ToolSetupActivity : AppCompatActivity() {
         }
 
         /*
-         * 白名单检查。
+         * ToolSetupActivity 是旧的通用工具设置页面。
          *
-         * 即使外部传入了其他 Activity，
-         * 这里也只允许当前保留的两个工具继续打开。
+         * 不再直接引用：
+         *
+         * SvgToPngActivity
+         * DecompileActivity
+         *
+         * 这里只允许打开当前项目中实际存在的 Activity。
          */
-        if (!toolInfoMap.containsKey(className)) {
+        val targetClass =
+            try {
+                Class.forName(
+                    className
+                )
+            } catch (e: Exception) {
 
-            AppLogger.e(
-                "ToolSetupActivity",
-                "目标工具不在允许的工具列表中：$className"
-            )
+                AppLogger.e(
+                    "ToolSetupActivity",
+                    "找不到目标 Activity：$className",
+                    e
+                )
+
+                null
+            }
+
+        if (targetClass == null) {
 
             Toast.makeText(
                 this,
-                "该工具已移除",
+                "该工具已移除或无法使用",
                 Toast.LENGTH_LONG
             ).show()
 
@@ -319,32 +280,23 @@ class ToolSetupActivity : AppCompatActivity() {
 
         try {
 
-            val targetClass =
-                Class.forName(className)
-
-            AppLogger.i(
-                "ToolSetupActivity",
-                "Class.forName 成功：${targetClass.name}"
-            )
-
-            val intent =
+            startActivity(
                 Intent(
                     this,
                     targetClass
                 )
-
-            startActivity(intent)
+            )
 
             AppLogger.i(
                 "ToolSetupActivity",
-                "目标工具已打开"
+                "目标工具已打开：$className"
             )
 
         } catch (e: Exception) {
 
             AppLogger.e(
                 "ToolSetupActivity",
-                "打开目标工具失败，className=$className",
+                "打开目标工具失败：$className",
                 e
             )
 

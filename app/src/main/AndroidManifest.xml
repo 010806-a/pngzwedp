@@ -13,14 +13,7 @@
         <activity
             android:name=".tools.ToolSetupActivity" />
 
-        <!-- SVG → PNG -->
-        <activity
-            android:name=".tools.SvgToPngActivity" />
-
-        <!-- SVG → XML -->
-        <activity
-            android:name=".tools.DecompileActivity" />
-
+      <activity android:name=".tools.SvgConverterActivity" />
         <!-- 主页面 -->
         <activity
             android:name=".MainActivity"
