@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="286dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_more_tools_popup"
+    android:orientation="vertical"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
+
+    <!-- 顶部标题区域 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="14dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="10dp">
+
+        <!-- 标题与副标题 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/closeButton"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/menuTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="更多工具"
+                android:textColor="#292B2E"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/menuSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="选择需要使用的转换工具"
+                android:textColor="#85898E"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <!-- 关闭按钮 -->
+        <ImageButton
+            android:id="@+id/closeButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/bg_tool_item"
+            android:contentDescription="关闭"
+            android:padding="10dp"
+            android:src="@drawable/ic_close" />
+
+    </RelativeLayout>
+
+    <!-- SVG → PNG -->
+    <include
+        layout="@layout/item_more_tool_svg_png" />
+
+    <!-- 分隔线 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="6dp"
+        android:background="#E1E4E8" />
+
+    <!-- SVG → XML / 反编译 -->
+    <include
+        layout="@layout/item_more_tool_decompile" />
+
+</LinearLayout>

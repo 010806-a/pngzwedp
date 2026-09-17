@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:name=".PngzwedpApplication"
+        android:allowBackup="true"
+        android:label="pngzwedp"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Pngzwedp">
+
+        <!-- 工具设置页面 -->
+        <activity
+            android:name=".tools.ToolSetupActivity" />
+
+        <!-- SVG → PNG -->
+        <activity
+            android:name=".tools.SvgToPngActivity" />
+
+        <!-- SVG → XML -->
+        <activity
+            android:name=".tools.DecompileActivity" />
+
+        <!-- 主页面 -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+    </application>
+
+</manifest>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F8F9FA">
+
+    <!-- 顶部栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:background="#FFFFFF">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_arrow_back"
+            android:padding="9dp"
+            android:contentDescription="返回" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="工具设置"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:textColor="#17191C" />
+
+            <TextView
+                android:id="@+id/subtitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="使用工具前设置输出目录"
+                android:textSize="10sp"
+                android:textColor="#8A9098" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="42dp"
+            android:layout_height="42dp" />
+
+    </LinearLayout>
+
+
+    <!-- 内容 -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+
+            <!-- 当前工具 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp"
+                android:background="@drawable/bg_tool_setup_card">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="当前工具"
+                    android:textSize="12sp"
+                    android:textColor="#8F959D" />
+
+                <TextView
+                    android:id="@+id/toolNameText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text="代码编辑器"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#17191C" />
+
+                <TextView
+                    android:id="@+id/toolDescriptionText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="查看与编辑文本代码"
+                    android:textSize="13sp"
+                    android:textColor="#8F959D"
+                    android:lineSpacingExtra="2dp" />
+
+            </LinearLayout>
+
+
+            <!-- 输出目录 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="vertical"
+                android:padding="18dp"
+                android:background="@drawable/bg_tool_setup_card">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="输出目录"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#17191C" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="七个工具共用此目录。生成的文件默认保存到这里。"
+                    android:textSize="12sp"
+                    android:textColor="#8F959D"
+                    android:lineSpacingExtra="2dp" />
+
+
+                <!-- 目录选择 -->
+                <LinearLayout
+                    android:id="@+id/directoryCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="13dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="@drawable/bg_directory_selector">
+
+                    <!-- 文件夹图标 -->
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_folder"
+                        android:contentDescription="输出目录" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/directoryName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="PNGZWEDP"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:textColor="#17191C" />
+
+                        <TextView
+                            android:id="@+id/directoryPath"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="/storage/emulated/0/PNGZWEDP"
+                            android:textSize="10sp"
+                            android:textColor="#999FA7"
+                            android:maxLines="1"
+                            android:ellipsize="middle" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="更改"
+                        android:textSize="12sp"
+                        android:textColor="#17191C" />
+
+                </LinearLayout>
+
+
+                <!-- 继续 -->
+                <Button
+                    android:id="@+id/continueButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="16dp"
+                    android:text="使用此目录并继续"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/bg_primary_button" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

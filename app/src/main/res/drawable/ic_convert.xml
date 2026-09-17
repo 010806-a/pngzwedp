@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--开通会员可提高反编译速度、资源代码自动转名称，以及激活智能编辑和自动补全功能-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:height="40dp"
+    android:width="40dp"
+    android:viewportWidth="40.0"
+    android:viewportHeight="40.0">
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M8,6L15,6A3,3 0,0 1,18 9L18,20A3,3 0,0 1,15 23L8,23A3,3 0,0 1,5 20L5,9A3,3 0,0 1,8 6z"
+        android:strokeColor="#FF555A62"
+        android:strokeWidth="1.8" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M8,19L11.5,15.5L14,18L16,16"
+        android:strokeColor="#FF555A62"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M25,17L32,17A3,3 0,0 1,35 20L35,31A3,3 0,0 1,32 34L25,34A3,3 0,0 1,22 31L22,20A3,3 0,0 1,25 17z"
+        android:strokeColor="#FF555A62"
+        android:strokeWidth="1.8" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M25,30L28.5,26.5L31,29L33,27"
+        android:strokeColor="#FF555A62"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M15,11.5C20,10.5 23,11.5 26,15"
+        android:strokeColor="#FF555A62"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M23.5,14.5L26,15L25.5,12.5"
+        android:strokeColor="#FF555A62"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

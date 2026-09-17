@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:paddingEnd="12dp"
+     android:gravity="center_vertical"
+     android:orientation="horizontal"
+     android:paddingBottom="10dp"
+     android:paddingStart="12dp"
+     android:paddingTop="10dp">
+
+    <ImageView
+         android:layout_height="24dp"
+         android:layout_width="24dp"
+         android:src="@drawable/ic_check_circle"
+         android:scaleType="centerInside"
+         android:contentDescription="转换状态"
+         android:id="@+id/resultStatusIcon" />
+
+    <LinearLayout
+         android:layout_height="wrap_content"
+         android:layout_width="0dp"
+         android:orientation="vertical"
+         android:layout_marginStart="10dp"
+         android:layout_weight="1">
+
+        <TextView
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:ellipsize="middle"
+             android:textSize="13sp"
+             android:textColor="#15171A"
+             android:maxLines="1"
+             android:id="@+id/resultFileName"
+             android:text="image.png"
+             android:textStyle="bold" />
+
+        <TextView
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:textSize="11sp"
+             android:textColor="#8A8F98"
+             android:layout_marginTop="3dp"
+             android:maxLines="2"
+             android:id="@+id/resultFileInfo"
+             android:text="PNG → WebP · 248 KB → 126 KB" />
+
+        <TextView
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:visibility="gone"
+             android:textSize="11sp"
+             android:textColor="#C62828"
+             android:layout_marginTop="3dp"
+             android:id="@+id/resultFileError"
+             android:text="转换失败" />
+
+    </LinearLayout>
+
+</LinearLayout>

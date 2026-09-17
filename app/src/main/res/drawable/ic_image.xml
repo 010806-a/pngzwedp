@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--开通会员可提高反编译速度、资源代码自动转名称，以及激活智能编辑和自动补全功能-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:height="32dp"
+    android:width="32dp"
+    android:viewportWidth="32.0"
+    android:viewportHeight="32.0">
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M8,5L24,5A4,4 0,0 1,28 9L28,23A4,4 0,0 1,24 27L8,27A4,4 0,0 1,4 23L4,9A4,4 0,0 1,8 5z"
+        android:strokeColor="#FF555A62"
+        android:strokeWidth="1.8" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M11,12m-2,0a2,2 0,1 1,4 0a2,2 0,1 1,-4 0"
+        android:strokeColor="#FF555A62"
+        android:strokeWidth="1.8" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M6.5,24l7,-7 4.5,4.5 3,-3L26,24.5"
+        android:strokeColor="#FF555A62"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 按下 -->
+    <item android:state_pressed="true">
+
+        <shape>
+
+            <solid
+                android:color="#E9EBEE" />
+
+            <corners
+                android:radius="12dp" />
+
+        </shape>
+
+    </item>
+
+    <!-- 默认 -->
+    <item>
+
+        <shape>
+
+            <solid
+                android:color="#F7F8FA" />
+
+            <corners
+                android:radius="12dp" />
+
+        </shape>
+
+    </item>
+
+</selector>
