@@ -5,13 +5,13 @@
       "selection": {
         "end": {
           "column": 1,
-          "index": 34759,
-          "line": 1437
+          "index": 17431,
+          "line": 704
         },
         "start": {
           "column": 1,
-          "index": 34759,
-          "line": 1437
+          "index": 17431,
+          "line": 704
         }
       }
     },
@@ -19,44 +19,14 @@
       "file": "/storage/emulated/0/AndroidIDEProjects/pngzwedp/app/src/main/res/layout/activity_svg_converter.xml",
       "selection": {
         "end": {
-          "column": 14,
-          "index": 21821,
-          "line": 534
+          "column": 52,
+          "index": 25899,
+          "line": 614
         },
         "start": {
-          "column": 14,
-          "index": 21821,
-          "line": 534
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/pngzwedp/app/src/main/res/layout/item_more_tool_svg_png.xml",
-      "selection": {
-        "end": {
-          "column": 15,
-          "index": 1689,
-          "line": 52
-        },
-        "start": {
-          "column": 15,
-          "index": 1689,
-          "line": 52
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/pngzwedp/app/src/main/res/layout/popup_more_tools.xml",
-      "selection": {
-        "end": {
-          "column": 15,
-          "index": 2137,
-          "line": 67
-        },
-        "start": {
-          "column": 15,
-          "index": 2137,
-          "line": 67
+          "column": 52,
+          "index": 25899,
+          "line": 614
         }
       }
     },
@@ -64,212 +34,32 @@
       "file": "/storage/emulated/0/AndroidIDEProjects/pngzwedp/app/src/main/kotlin/com/example/myno/pngzwedp/MainActivity.kt",
       "selection": {
         "end": {
-          "column": 59,
-          "index": 1323,
-          "line": 32
+          "column": 5,
+          "index": 38099,
+          "line": 1781
         },
         "start": {
-          "column": 0,
-          "index": 1264,
-          "line": 32
+          "column": 5,
+          "index": 35516,
+          "line": 1668
         }
       }
     },
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/pngzwedp/app/src/main/AndroidManifest.xml",
-      "selection": {
-        "end": {
-          "column": 61,
-          "index": 482,
-          "line": 15
-        },
-        "start": {
-          "column": 61,
-          "index": 482,
-          "line": 15
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/pngzwedp/app/src/main/kotlin/com/example/myno/pngzwedp/tools/ToolSetupActivity.kt",
+      "file": "/storage/emulated/0/AndroidIDEProjects/pngzwedp/app/src/main/kotlin/com/example/myno/pngzwedp/storage/OutputDirectoryManager.kt",
       "selection": {
         "end": {
           "column": 1,
-          "index": 7620,
-          "line": 365
+          "index": 2376,
+          "line": 94
         },
         "start": {
           "column": 1,
-          "index": 7620,
-          "line": 365
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/pngzwedp/app/src/main/res/layout/item_png_file.xml",
-      "selection": {
-        "end": {
-          "column": 0,
-          "index": 0,
-          "line": 0
-        },
-        "start": {
-          "column": 0,
-          "index": 0,
-          "line": 0
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/pngzwedp/app/src/main/res/drawable/bg_svg_select_zone.xml",
-      "selection": {
-        "end": {
-          "column": 8,
-          "index": 299,
-          "line": 12
-        },
-        "start": {
-          "column": 8,
-          "index": 299,
-          "line": 12
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/pngzwedp/app/src/main/res/drawable/bg_svg_upload_circle.xml",
-      "selection": {
-        "end": {
-          "column": 8,
-          "index": 179,
-          "line": 6
-        },
-        "start": {
-          "column": 8,
-          "index": 179,
-          "line": 6
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/pngzwedp/app/src/main/res/drawable/bg_svg_file_panel.xml",
-      "selection": {
-        "end": {
-          "column": 8,
-          "index": 299,
-          "line": 12
-        },
-        "start": {
-          "column": 8,
-          "index": 299,
-          "line": 12
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/pngzwedp/app/src/main/res/drawable/bg_svg_format_container.xml",
-      "selection": {
-        "end": {
-          "column": 8,
-          "index": 222,
-          "line": 8
-        },
-        "start": {
-          "column": 8,
-          "index": 222,
-          "line": 8
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/pngzwedp/app/src/main/res/drawable/bg_svg_size_container.xml",
-      "selection": {
-        "end": {
-          "column": 8,
-          "index": 222,
-          "line": 8
-        },
-        "start": {
-          "column": 8,
-          "index": 222,
-          "line": 8
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/pngzwedp/app/src/main/res/drawable/bg_svg_progress_panel.xml",
-      "selection": {
-        "end": {
-          "column": 8,
-          "index": 299,
-          "line": 12
-        },
-        "start": {
-          "column": 8,
-          "index": 299,
-          "line": 12
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/pngzwedp/app/src/main/res/drawable/bg_svg_result_panel.xml",
-      "selection": {
-        "end": {
-          "column": 8,
-          "index": 299,
-          "line": 12
-        },
-        "start": {
-          "column": 8,
-          "index": 299,
-          "line": 12
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/pngzwedp/app/src/main/res/drawable/bg_svg_convert_button_disabled.xml",
-      "selection": {
-        "end": {
-          "column": 8,
-          "index": 223,
-          "line": 8
-        },
-        "start": {
-          "column": 8,
-          "index": 223,
-          "line": 8
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/pngzwedp/app/src/main/res/drawable/bg_svg_convert_button_enabled.xml",
-      "selection": {
-        "end": {
-          "column": 8,
-          "index": 223,
-          "line": 8
-        },
-        "start": {
-          "column": 8,
-          "index": 223,
-          "line": 8
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/pngzwedp/app/src/main/res/drawable/bg_svg_convert_button_running.xml",
-      "selection": {
-        "end": {
-          "column": 8,
-          "index": 223,
-          "line": 8
-        },
-        "start": {
-          "column": 8,
-          "index": 223,
-          "line": 8
+          "index": 2376,
+          "line": 94
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/pngzwedp/app/src/main/kotlin/com/example/myno/pngzwedp/MainActivity.kt"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/pngzwedp/app/src/main/kotlin/com/example/myno/pngzwedp/tools/SvgConverterActivity.kt"
 }

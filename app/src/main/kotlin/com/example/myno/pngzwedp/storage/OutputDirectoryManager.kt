@@ -1,5 +1,5 @@
 package com.example.myno.pngzwedp.storage
-
+import androidx.documentfile.provider.DocumentFile
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -8,7 +8,91 @@ object OutputDirectoryManager {
 
     private const val PREFS_NAME = "pngzwedp_settings"
     private const val KEY_OUTPUT_URI = "output_uri"
+    /**
+ * 获取当前实际输出目录的可读路径。
+ *
+ * 返回值始终根据当前保存的 SAF URI 动态生成，
+ * 不使用固定的 pngzwedp 或写死的目录。
+ */
+fun getOutputDirectoryPath(
+    context: Context
+): String? {
 
+    val uri = getOutputUri(context)
+        ?: return null
+
+    return try {
+
+        /*
+         * 优先解析 Android 外部存储的 SAF URI。
+         *
+         * 例如：
+         * content://com.android.externalstorage.documents/tree/primary%3AAndroidIDEProjects
+         *
+         * 解析后：
+         * /storage/emulated/0/AndroidIDEProjects/
+         */
+        if (
+            uri.authority ==
+                "com.android.externalstorage.documents"
+        ) {
+
+            val documentId =
+                uri.lastPathSegment
+                    ?.let { Uri.decode(it) }
+
+            if (!documentId.isNullOrBlank()) {
+
+                val separatorIndex =
+                    documentId.indexOf(':')
+
+                if (separatorIndex > 0) {
+
+                    val storageId =
+                        documentId.substring(
+                            0,
+                            separatorIndex
+                        )
+
+                    val relativePath =
+                        documentId.substring(
+                            separatorIndex + 1
+                        )
+
+                    if (
+                        storageId.equals(
+                            "primary",
+                            ignoreCase = true
+                        )
+                    ) {
+
+                        return if (
+                            relativePath.isBlank()
+                        ) {
+                            "/storage/emulated/0/"
+                        } else {
+                            "/storage/emulated/0/$relativePath/"
+                        }
+                    }
+                }
+            }
+        }
+
+        /*
+         * 如果不是标准 primary 外部存储，
+         * 至少显示 DocumentFile 获取到的真实目录名称。
+         */
+        DocumentFile
+            .fromTreeUri(
+                context,
+                uri
+            )
+            ?.name
+
+    } catch (_: Exception) {
+        null
+    }
+}
     /**
      * 保存用户选择的输出目录。
      */

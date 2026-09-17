@@ -1,5 +1,6 @@
 package com.example.myno.pngzwedp.tools
-
+import com.example.myno.pngzwedp.vector.SvgToPngConverter
+import com.example.myno.pngzwedp.vector.SvgToVectorXmlConverter
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -155,11 +156,14 @@ class SvgConverterActivity : AppCompatActivity() {
             }
         }
 
-        binding.keepAspectCheckBox.setOnCheckedChangeListener { _, checked ->
-            if (!converting) {
-                keepAspectRatio = checked
-            }
-        }
+ binding.keepAspectCheckBox.isChecked = keepAspectRatio
+
+binding.keepAspectCheckBox.setOnCheckedChangeListener { _, checked ->
+    if (!converting) {
+        keepAspectRatio = checked
+        updatePngSettingsUi()
+    }
+}
 
         binding.viewDirectoryButton.setOnClickListener {
             if (!converting) {
@@ -691,69 +695,15 @@ class SvgConverterActivity : AppCompatActivity() {
 
     private fun updateOutputDirectory() {
 
-        val uri =
-            OutputDirectoryManager.getOutputUri(this)
+    val outputPath =
+        OutputDirectoryManager
+            .getOutputDirectoryPath(this)
 
-        binding.directoryPath.text =
-            if (uri != null) {
-                "pngzwedp"
-            } else {
-                "pngzwedp"
-            }
-    }
+    binding.directoryPath.text =
+        outputPath
+            ?: "尚未设置输出目录"
+}
 
-    private fun openOutputDirectory() {
-
-        val uri =
-            OutputDirectoryManager.getOutputUri(this)
-
-        if (uri != null) {
-
-            try {
-
-                val intent =
-                    Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
-                        putExtra(
-                            "android.provider.extra.SHOW_ADVANCED",
-                            true
-                        )
-                        putExtra(
-                            "android.content.extra.SHOW_ADVANCED",
-                            true
-                        )
-                    }
-
-                startActivity(intent)
-
-            } catch (e: Exception) {
-
-                AppLogger.e(
-                    "SvgConverterActivity",
-                    "打开输出目录失败",
-                    e
-                )
-
-                Toast.makeText(
-                    this,
-                    "无法打开输出目录",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-        } else {
-
-            val fallback =
-                getExternalFilesDir(
-                    Environment.DIRECTORY_PICTURES
-                )
-
-            Toast.makeText(
-                this,
-                "输出目录：${fallback?.absolutePath ?: "pngzwedp"}",
-                Toast.LENGTH_LONG
-            ).show()
-        }
-    }
 
     /**
      * 对外提供给底部按钮使用。
@@ -778,12 +728,12 @@ class SvgConverterActivity : AppCompatActivity() {
             return
         }
 
-        if (
-            outputFormat == OutputFormat.PNG &&
-            pngSizeMode == PngSizeMode.CUSTOM
-        ) {
-            readCustomSize()
-        }
+ if (outputFormat == OutputFormat.PNG &&
+    pngSizeMode == PngSizeMode.CUSTOM &&
+    !readCustomSize()
+) {
+    return
+}
 
         converting = true
 
@@ -821,28 +771,33 @@ class SvgConverterActivity : AppCompatActivity() {
         }
     }
 
-    private fun readCustomSize() {
+private fun readCustomSize(): Boolean {
+    val width = widthInput
+        ?.text
+        ?.toString()
+        ?.trim()
+        ?.toIntOrNull()
 
-        val width =
-            widthInput
-                ?.text
-                ?.toString()
-                ?.toIntOrNull()
+    val height = heightInput
+        ?.text
+        ?.toString()
+        ?.trim()
+        ?.toIntOrNull()
 
-        val height =
-            heightInput
-                ?.text
-                ?.toString()
-                ?.toIntOrNull()
-
-        if (width != null && width > 0) {
-            customWidth = width.coerceIn(1, 4096)
-        }
-
-        if (height != null && height > 0) {
-            customHeight = height.coerceIn(1, 4096)
-        }
+    if (width == null || height == null || width <= 0 || height <= 0) {
+        Toast.makeText(
+            this,
+            "请输入有效的宽度和高度",
+            Toast.LENGTH_SHORT
+        ).show()
+        return false
     }
+
+    customWidth = width.coerceIn(1, 4096)
+    customHeight = height.coerceIn(1, 4096)
+
+    return true
+}
 
     private suspend fun performConversion():
         List<ConversionResult> =
@@ -1437,29 +1392,116 @@ private fun lockUi(
      */
 }
 
-    private fun openOutputDirectorySettings() {
+ private fun openOutputDirectory() {
+
+    val directoryUri =
+        OutputDirectoryManager.getOutputUri(this)
+
+    if (directoryUri == null) {
+
+        Toast.makeText(
+            this,
+            "尚未设置输出目录",
+            Toast.LENGTH_SHORT
+        ).show()
+
+        return
+    }
+
+    lifecycleScope.launch {
+
+        val outputFileUri =
+            withContext(Dispatchers.IO) {
+
+                try {
+
+                    val directory =
+                        androidx.documentfile.provider.DocumentFile
+                            .fromTreeUri(
+                                this@SvgConverterActivity,
+                                directoryUri
+                            )
+
+                    directory
+                        ?.listFiles()
+                        ?.firstOrNull {
+                            it.isFile &&
+                                it.length() > 0L
+                        }
+                        ?.uri
+
+                } catch (e: Exception) {
+
+                    AppLogger.e(
+                        "SvgConverterActivity",
+                        "读取输出目录失败",
+                        e
+                    )
+
+                    null
+                }
+            }
+
+        if (outputFileUri == null) {
+
+            Toast.makeText(
+                this@SvgConverterActivity,
+                "输出目录中暂时没有文件",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            return@launch
+        }
+
+        val mimeType =
+            contentResolver.getType(
+                outputFileUri
+            ) ?: "application/octet-stream"
+
+        val intent =
+            Intent(
+                Intent.ACTION_VIEW
+            ).apply {
+
+                setDataAndType(
+                    outputFileUri,
+                    mimeType
+                )
+
+                addFlags(
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+
+                addFlags(
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                )
+            }
 
         try {
 
             startActivity(
-                Intent(
-                    Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
-                    Uri.parse(
-                        "package:$packageName"
-                    )
+                Intent.createChooser(
+                    intent,
+                    "选择文件管理器"
                 )
             )
 
-        } catch (e: Exception) {
+        } catch (e: android.content.ActivityNotFoundException) {
 
             AppLogger.e(
                 "SvgConverterActivity",
-                "打开目录设置失败",
+                "没有找到可以打开输出文件的应用",
                 e
             )
+
+            Toast.makeText(
+                this@SvgConverterActivity,
+                "手机上没有可以打开此文件的应用",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
-
+}
     private fun dp(value: Int): Int {
 
         return (

@@ -1,141 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<FrameLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#F7F7F7">
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/contentScroll"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <!-- 顶部栏 -->
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="16dp"
         android:background="#FFFFFF"
-        android:fillViewport="true">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="14dp"
+            android:src="@drawable/ic_arrow_back"
+            android:contentDescription="返回"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless" />
 
         <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SVG 转换"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#222222" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="支持选择一个或多个 SVG 文件"
+                android:textSize="11sp"
+                android:textColor="#888888" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <!-- 主内容滚动区域 -->
+    <ScrollView
+        android:id="@+id/contentScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:overScrollMode="ifContentScrolls"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintBottom_toTopOf="@id/startConversionButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/contentContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="110dp">
-
-            <!-- 顶部导航 -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:gravity="center_vertical"
-                android:paddingStart="14dp"
-                android:paddingEnd="18dp">
-
-                <ImageButton
-                    android:id="@+id/backButton"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="返回"
-                    android:padding="7dp"
-                    android:src="@drawable/ic_arrow_back" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="7dp"
-                    android:text="SVG 转换"
-                    android:textColor="#111111"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+            android:paddingTop="12dp"
+            android:paddingBottom="20dp">
 
 
-            <!-- 内容 -->
-
-            <LinearLayout
+            <!-- 选择 SVG -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/selectZone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingStart="18dp"
-                android:paddingEnd="18dp">
-
-                <!-- SVG 文件 -->
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="SVG 文件"
-                    android:textColor="#111111"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="支持选择一个或多个 SVG 文件"
-                    android:textColor="#8B8B8B"
-                    android:textSize="12sp" />
-
-                <!-- 选择文件 -->
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
-                    android:id="@+id/selectZone"
                     android:layout_width="match_parent"
-                    android:layout_height="122dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/bg_svg_select_zone"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:padding="24dp">
 
-                    <TextView
-                        android:layout_width="34dp"
-                        android:layout_height="34dp"
-                        android:background="@drawable/bg_svg_upload_circle"
-                        android:gravity="center"
-                        android:text="↑"
-                        android:textColor="#222222"
-                        android:textSize="17sp" />
+                    <ImageView
+                        android:id="@+id/selectSvgIcon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_folder"
+                        android:contentDescription="选择 SVG" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="9dp"
+                        android:layout_marginTop="12dp"
                         android:text="选择 SVG 文件"
-                        android:textColor="#111111"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="#222222" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="可同时选择多个文件"
-                        android:textColor="#999999"
-                        android:textSize="12sp" />
+                        android:text="可同时选择多个 SVG 文件"
+                        android:textSize="12sp"
+                        android:textColor="#888888" />
 
                 </LinearLayout>
 
+            </com.google.android.material.card.MaterialCardView>
 
-                <!-- 文件列表 -->
+
+            <!-- 已选择文件 -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/filePanel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:visibility="gone"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
-                    android:id="@+id/filePanel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/bg_svg_file_panel"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:orientation="vertical">
 
+                    <!-- 文件标题 -->
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="44dp"
+                        android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:paddingStart="13dp"
-                        android:paddingEnd="13dp">
+                        android:paddingStart="16dp"
+                        android:paddingTop="14dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="10dp">
 
                         <TextView
                             android:id="@+id/fileCount"
@@ -143,106 +163,234 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="已选择 0 个文件"
-                            android:textColor="#111111"
-                            android:textSize="13sp"
-                            android:textStyle="bold" />
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:textColor="#222222" />
 
                         <TextView
                             android:id="@+id/clearFilesButton"
-                            android:layout_width="48dp"
-                            android:layout_height="40dp"
-                            android:gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="8dp"
+                            android:paddingTop="6dp"
+                            android:paddingEnd="8dp"
+                            android:paddingBottom="6dp"
                             android:text="清空"
-                            android:textColor="#777777"
                             android:textSize="12sp"
+                            android:textColor="#777777"
                             android:clickable="true"
-                            android:focusable="true" />
+                            android:focusable="true"
+                            android:background="?attr/selectableItemBackgroundBorderless" />
 
                     </LinearLayout>
 
+                    <!-- 文件列表 -->
                     <LinearLayout
                         android:id="@+id/fileListContainer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical" />
 
+                    <!-- 添加更多 -->
                     <TextView
                         android:id="@+id/addMoreButton"
                         android:layout_width="match_parent"
-                        android:layout_height="42dp"
-                        android:background="#FAFAFA"
+                        android:layout_height="44dp"
                         android:gravity="center"
-                        android:text="＋ 添加更多 SVG 文件"
+                        android:text="添加更多 SVG 文件"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
                         android:textColor="#555555"
-                        android:textSize="12sp"
                         android:clickable="true"
-                        android:focusable="true" />
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground" />
 
                 </LinearLayout>
 
+            </com.google.android.material.card.MaterialCardView>
 
-                <!-- 转换格式 -->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp"
-                    android:text="转换为"
-                    android:textColor="#111111"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+            <!-- 输出位置 -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/outputDirectoryCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_svg_format_container"
-                    android:orientation="horizontal"
-                    android:padding="3dp">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <TextView
-                        android:id="@+id/formatPngButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_segment_selected"
-                        android:gravity="center"
-                        android:text="PNG"
-                        android:textColor="#FFFFFF"
-                        android:textSize="13sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="输出位置"
+                        android:textSize="16sp"
                         android:textStyle="bold"
-                        android:clickable="true"
-                        android:focusable="true" />
+                        android:textColor="#222222" />
 
-                    <TextView
-                        android:id="@+id/formatVectorButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_segment_normal"
-                        android:gravity="center"
-                        android:text="Android Vector XML"
-                        android:textColor="#666666"
-                        android:textSize="13sp"
-                        android:clickable="true"
-                        android:focusable="true" />
+                    <LinearLayout
+                        android:id="@+id/outputDirectoryRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <!-- 文件夹图标：使用你自己的资源 -->
+                        <ImageView
+                            android:id="@+id/outputDirectoryIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_folder"
+                            android:contentDescription="输出目录" />
+
+                        <!-- 实际输出路径 -->
+                        <TextView
+                            android:id="@+id/directoryPath"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="10dp"
+                            android:text="/storage/emulated/0/AndroidIDEProjects/"
+                            android:textSize="13sp"
+                            android:textColor="#555555"
+                            android:maxLines="1"
+                            android:ellipsize="middle" />
+
+                        <!-- 查看 -->
+                        <TextView
+                            android:id="@+id/viewDirectoryButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="8dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="8dp"
+                            android:paddingBottom="8dp"
+                            android:text="查看"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#333333"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?attr/selectableItemBackgroundBorderless" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
+            </com.google.android.material.card.MaterialCardView>
 
-                <!-- PNG 设置 -->
+
+            <!-- 输出格式 -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/formatCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="输出格式"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="#222222" />
+
+                    <LinearLayout
+                        android:id="@+id/formatSegment"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/formatPngButton"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="PNG"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:textColor="#FFFFFF"
+                            android:background="@drawable/bg_segment_selected"
+                            android:clickable="true"
+                            android:focusable="true" />
+
+                        <TextView
+                            android:id="@+id/formatVectorButton"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginStart="6dp"
+                            android:gravity="center"
+                            android:text="Vector XML"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:textColor="#666666"
+                            android:background="@drawable/bg_segment_normal"
+                            android:clickable="true"
+                            android:focusable="true" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <!-- PNG 设置 -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/pngSettingsCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:id="@+id/pngSettingsGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PNG 设置"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="#222222" />
 
                     <LinearLayout
+                        android:id="@+id/pngSizeSegment"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="@drawable/bg_svg_size_container"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="12dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -250,11 +398,12 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@drawable/bg_segment_selected"
                             android:gravity="center"
                             android:text="原始尺寸"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
                             android:textColor="#FFFFFF"
-                            android:textSize="12sp"
+                            android:background="@drawable/bg_segment_selected"
                             android:clickable="true"
                             android:focusable="true" />
 
@@ -263,115 +412,61 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@drawable/bg_segment_normal"
+                            android:layout_marginStart="6dp"
                             android:gravity="center"
                             android:text="自定义尺寸"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
                             android:textColor="#666666"
-                            android:textSize="12sp"
+                            android:background="@drawable/bg_segment_normal"
                             android:clickable="true"
                             android:focusable="true" />
 
                     </LinearLayout>
 
+                    <!-- 尺寸提示 -->
+                    <TextView
+                        android:id="@+id/sizeHint"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="保持 SVG 原始尺寸"
+                        android:textSize="12sp"
+                        android:textColor="#888888" />
+
+                    <!-- 保持比例 -->
                     <CheckBox
                         android:id="@+id/keepAspectCheckBox"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:buttonTint="#111111"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
                         android:text="保持宽高比例"
-                        android:textColor="#555555"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/sizeHint"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="保持 SVG 原始尺寸"
-                        android:textColor="#999999"
-                        android:textSize="11sp" />
+                        android:textSize="13sp"
+                        android:checked="true" />
 
                 </LinearLayout>
 
+            </com.google.android.material.card.MaterialCardView>
 
-                <!-- 输出位置 -->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp"
-                    android:text="输出位置"
-                    android:textColor="#111111"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+            <!-- 转换进度 -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/progressGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:visibility="gone"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="7dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="30dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="□"
-                        android:textColor="#555555"
-                        android:textSize="17sp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/directoryPath"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:text="pngzwedp"
-                            android:textColor="#111111"
-                            android:textSize="13sp" />
-
-                        <TextView
-                            android:id="@+id/directoryHint"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
-                            android:text="PNG 与 Vector XML 共用此目录"
-                            android:textColor="#999999"
-                            android:textSize="11sp" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/viewDirectoryButton"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:gravity="center"
-                        android:text="查看"
-                        android:textColor="#111111"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:clickable="true"
-                        android:focusable="true" />
-
-                </LinearLayout>
-
-
-                <!-- 转换进度 -->
-
-                <LinearLayout
-                    android:id="@+id/progressGroup"
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/bg_svg_progress_panel"
                     android:orientation="vertical"
-                    android:padding="15dp"
-                    android:visibility="gone">
+                    android:padding="16dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -384,17 +479,17 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="正在转换"
-                            android:textColor="#111111"
-                            android:textSize="13sp"
-                            android:textStyle="bold" />
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="#222222" />
 
                         <TextView
                             android:id="@+id/progressCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0 / 0"
-                            android:textColor="#777777"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:textColor="#888888" />
 
                     </LinearLayout>
 
@@ -402,85 +497,82 @@
                         android:id="@+id/progressBar"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="5dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="14dp"
                         android:max="100"
-                        android:progress="0"
-                        android:progressTint="#111111"
-                        android:progressBackgroundTint="#EEEEEE" />
+                        android:progress="0" />
 
                     <TextView
                         android:id="@+id/progressText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:ellipsize="end"
-                        android:maxLines="1"
                         android:text="准备转换…"
-                        android:textColor="#888888"
-                        android:textSize="11sp" />
+                        android:textSize="12sp"
+                        android:textColor="#777777" />
 
+                    <!-- 失败信息 -->
                     <LinearLayout
                         android:id="@+id/failureGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="10dp"
                         android:orientation="vertical"
                         android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="转换失败的文件"
-                            android:textColor="#111111"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
 
                         <LinearLayout
                             android:id="@+id/failureList"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
                             android:orientation="vertical" />
 
                     </LinearLayout>
 
                 </LinearLayout>
 
+            </com.google.android.material.card.MaterialCardView>
 
-                <!-- 转换结果 -->
+
+            <!-- 转换结果 -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/resultGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:visibility="gone"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
-                    android:id="@+id/resultGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/bg_svg_result_panel"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:padding="16dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="13dp">
+                        android:gravity="center_vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:text="转换结果"
-                            android:textColor="#111111"
-                            android:textSize="13sp"
-                            android:textStyle="bold" />
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="#222222" />
 
                         <TextView
                             android:id="@+id/resultSummary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="0 个文件"
-                            android:textColor="#888888"
-                            android:textSize="11sp" />
+                            android:text="0 个文件 · 成功 0"
+                            android:textSize="12sp"
+                            android:textColor="#888888" />
 
                     </LinearLayout>
 
@@ -488,48 +580,36 @@
                         android:id="@+id/resultList"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:orientation="vertical" />
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
 
-    <!-- =========================
-         固定底部操作栏
-         ========================= -->
+    <!-- 底部开始转换按钮 -->
+    <TextView
+        android:id="@+id/startConversionButton"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="12dp"
+        android:gravity="center"
+        android:text="开始转换"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="#999999"
+        android:background="@drawable/bg_svg_convert_button_disabled"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/bottomActionBar"
-        android:layout_width="match_parent"
-        android:layout_height="76dp"
-        android:layout_gravity="bottom"
-        android:background="#FFFFFF"
-        android:elevation="8dp"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:paddingStart="18dp"
-        android:paddingEnd="18dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
-
-        <TextView
-            android:id="@+id/startConversionButton"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:background="@drawable/bg_svg_convert_button_disabled"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:text="开始转换"
-            android:textColor="#999999"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
